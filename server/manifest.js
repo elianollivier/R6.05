@@ -5,10 +5,8 @@ const Confidence = require('@hapipal/confidence');
 const Toys = require('@hapipal/toys');
 const Schwifty = require('@hapipal/schwifty');
 
-// Pull .env into process.env
 Dotenv.config({ path: `${__dirname}/.env` });
 
-// Glue manifest as a confidence store
 module.exports = new Confidence.Store({
     server: {
         host: 'localhost',
@@ -31,7 +29,7 @@ module.exports = new Confidence.Store({
     register: {
         plugins: [
             {
-                plugin: '../lib', // Main plugin
+                plugin: '../lib',
                 options: {}
             },
             {
@@ -46,12 +44,13 @@ module.exports = new Confidence.Store({
                         migrateOnStart: true,
                         knex: {
                             client: 'sqlite3',
-                            useNullAsDefault: true,     // Suggested for sqlite3
+                            useNullAsDefault: true,
                             connection: {
-                                filename: ':memory:'
+                                filename: 'db.sqlite'
                             },
                             migrations: {
-                                stub: Schwifty.migrationsStubPath
+                                stub: Schwifty.migrationsStubPath,
+                                directory: '../lib/migrations'
                             }
                         }
                     },
